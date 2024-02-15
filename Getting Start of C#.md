@@ -971,3 +971,129 @@ This is how it works:
 - The `switch` expression is evaluated once
 - The value of the expression is compared with the values of each `case`
 - If there is a match, the associated block of code is executed
+
+The example below use the weekday number to calculate the weekday name:
+
+> Example
+>
+> ```c#
+> int day = 4;
+> switch (day)
+> {
+>     case 1:
+>         Console.WriteLine("Monday");
+>         break;
+>     case 2:
+>         Console.WriteLine("Tuesday");
+>         break;
+>     case 3:
+>         Console.WriteLine("Wednesday");
+>         break;
+>     case 4:
+>         Console.WriteLine("Thursday");
+>         break;
+>     case 5:
+>         Console.WriteLine("Friday");
+>         break;
+>     case 6:
+>         Console.WriteLine("Saturday");
+>         break;
+>     case 7:
+>         Console.WriteLine("Sunday");
+>         break;
+> }
+> ```
+
+#### The break keyword
+
+When C# reaches a `break` keyword, it breaks out of the switch block.
+
+This will stop the execution of more code and case testing inside the block.
+
+When a match is found, and the job is done, it's time for a break. There is no need for more testing.
+
+> A break can save a lot of execution time because it "ignores" the execution of all the rest of the code in the switch block.
+
+#### The default keyword
+
+The `default` keyword is optional and specifies some code to run if there is no case match:
+
+> Example
+>
+> ```c#
+> int day = 4;
+> switch (day)
+> {
+>     case 6:
+>         Console.WriteLine("Saturday");
+>         break;
+>     case 7:
+>         Console.WriteLine("Sunday");
+>         break;
+>     default:
+>         Console.WriteLine("Looking forward to the weekend.");
+>         break;
+> }
+> ```
+
+### C# While Loop
+
+Loops can execute a block of code as long as a specified condition is reached.
+
+Loops are handy because they save time, reduce errors, and they make code more readable.
+
+The `while` loop loops through a block of code as long as a specified condition is `True`:
+
+> Syntax
+>
+> ```c#
+> while (condition)
+> {
+>     //code block to executed
+> }
+> ```
+
+In the example below, the code in the loop will run, over and over again, as long as a variable (i) is less than 5:
+
+> Example
+>
+> ```c#
+> int i = 0;
+> while (i < 5)
+> {
+>     Console.WriteLine(i);
+>     i++;
+> }
+> ```
+
+> Note: Do not forget to increase the variable used in the condition, otherwise the loop will never end!
+
+### The Do/While Loop
+
+The `do/while` loop is a variant of the `while` loop. This loop will execute the code block once, before checking if the condition is `True`, it will repeat the loop as long as the condition is `True`.
+
+> Syntax
+>
+> ```c#
+> do
+> {
+>     // code block to be executed
+> }
+> while (condition);
+> ```
+
+The example below uses a `do/while` loop. The loop will always be executed at least once, even if the condition is false, because the code block is executed before the condition is tested:
+
+> Example
+>
+> ```c#
+> int i = 0;
+> do
+> {
+>     Console.WriteLine(i);
+>     i++;
+> }
+> while (i < 5);
+> ```
+
+> Note: Don't forget to increase the variable used in the condition, otherwise the loop will never end!
