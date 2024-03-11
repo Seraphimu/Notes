@@ -386,8 +386,10 @@ chgrp <组名> <文件名>
 ### 在Linux中使用便携软件
 ```bash
 vim /etc/profile
-export <NAME>=$PATH:<DIRECTORY>
+export <NAME>=<DIRECTORY>
 export PATH=<$NAME>/<DIRECTORY>:$PATH
+
+source /etc/profile
 ```
 
 ### vim
