@@ -405,3 +405,132 @@ vim批量注释
 #批量删除
 :<起始行>, <最终行>s#^//##g
 ```
+
+
+
+#### 修改文件所在的组
+
+```bash
+chgrp <group_name> <file_name>
+```
+
+#### 改变用户所在组
+
+```bash
+ usermod -g <group_name> <user_name>
+```
+
+---
+
+#### Process Control
+
+The `getpid()` function returns the `PID` of current progress(calling progress), the `getppid()` function returns the `PID` of its parent (The progress that created the calling progress).
+
+function declare:
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+
+pid_t getpid(void);
+pid_t getppid(void);
+```
+
+The `getpid()` and `getppid()` routines return an integer value of type `pid_t`, which on Linux systems is defined in `types.h` as an `int`.
+
+Then I will write a segment of codes to test the `getpid()` and `getppid()` routines:
+
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+void hello()
+{
+    printf("Hello\n");
+    printf("Now, is the filed of hello()\n");
+    printf("a. pid of hello() is %d\n", getpid());
+    printf("b. is the pid %d of main() ?\n", getppid());
+}
+
+int main(void)
+{
+    printf("Okay, this is the filed of main()\n");
+    printf("1. pid of main() is %d\n", getpid());
+    printf("2. parent pid of main() is %d\n", getppid());
+    hello();
+
+    return 0;
+}
+```
+
+The output is:
+
+```bash
+Okay, this is the filed of main()
+1. pid of main() is 950604
+2. parent pid of main() is 946091
+Hello
+Now, is the filed of hello()
+a. pid of hello() is 950604
+b. is the pid 946091 of main() ?
+```
+
+Now, I know that the `PID` of main is same as calling `hello()`, because the `hello()` progress is not created by `main()`, `main() `only call it now.
+
+`main()` is the entry of the progress!!!
+
+Now, I will test the following codes:
+
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(void)
+{
+    printf("main() progress\n");
+    printf("A. pid of main() is %d\n", getpid());
+    printf("B. parent pid of main() is %d\n", getppid());
+
+    pid_t son = fork();
+    if (son == 0)
+    {
+        printf("This is the sub progress of main()\n");
+        printf("1. The value of getpid() is %d\n", getpid());
+        printf("2. The value of getppid() is %d\n", getppid());
+    }
+    else
+    {
+        printf("This is the value that return in main progress.\n");
+        printf("a. The value of getpid() is %d\n", getpid());
+        printf("b. The value of getppid() is %d\n", getppid());
+    }
+
+    return 0;
+}
+```
+
+Output is:
+
+```bash
+main() progress
+A. pid of main() is 953872
+B. parent pid of main() is 946091
+This is the value that return in main progress.
+a. The value of getpid() is 953872
+b. The value of getppid() is 946091
+This is the sub progress of main()
+1. The value of getpid() is 953873
+2. The value of getppid() is 1
+```
+
+Debug:
+
+Set that allow the `GDB` into sub progress.
+
+```bash
+(gdb) set follow-fork-mode child
+(gdb) set detach-on-fork off
+```
+

@@ -14,9 +14,9 @@ mysql -u root -p
 # 使用mysql数据库
 use mysql;
 # 修改指定用户的密码
-update user set authentication_string=password('root') where user='root' and Host='localhost'
+update user set authentication_string=password('root') where user='root' and Host='localhost';
 # 刷新权限
-frush privileges
+flush privileges;
 # 退出
 quit
 # 重启服务
