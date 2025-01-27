@@ -42,6 +42,91 @@ QT下载速度慢解决方案
 3. 生成makefile `qmake`
 4. make
 
-### 项目一：Windows下的运行框
 
-用vim编写，手动使用QT的工具来编译运行。
+### 常用
+
+在标签上显示图片
+
+方法一
+
+```cpp
+QImage img;
+img.load(<path for picture>);
+ui->label->setPixmap(QPixmap::fromImage(img));
+```
+
+方法二
+
+```cpp
+QPixmap pix(<path for picture>);
+ui->label->setPixmap(pix);
+```
+
+#### QTimer定时器
+
+启动定时器
+
+```cpp
+//代表1秒
+#define TIMEOUT 1 * 1000
+QTimer * timer;
+//TIMEOUT是一个以毫秒为单位的时间
+timer->start(TIMEOUT);
+```
+
+关闭定时器
+
+```cpp
+timer->stop();
+```
+
+#### QObject定时器
+
+`QWidget` 类继承于QObject类，所以可以直接使用 `this` 指针来调用QObject中的部分方法
+
+startTimer函数大致原型
+```cpp
+typedef int TimerId;
+TimerId startTimer(TIMEOUT);    //定时时间为参数，定时器编号为返回值
+```
+
+使用方法
+
+```cpp
+int myTimerId = this->startTimer(TIMEOUT);
+```
+
+`killTimer` 函数使用
+
+```cpp
+this->killTimer(myTimerId);
+```
+
+使用 `timerEvent` 函数来调用事件，每隔一段时间调用一次该函数
+
+```cpp
+//重写timeEvent函数，该函数是个父类中的虚函数，继承需要重写
+virtual void timerEvent(QTimerEvent * event);
+```
+
+使用方法
+
+```cpp
+timerEvent(QTimerEvent * event) {
+    //如果myTimerId == event->timerId，则执行id为myTimerId的定时顺路要执行的操作
+    if (event->timerId != myTimerId) {
+        return;
+    }
+}
+```
+
+#### connect 函数
+
+```cpp
+connect(信号发出者, 信号类型, 处理者, 处理方法);
+```
+如
+
+```cpp
+connect(timer, &QTimer::timeout, this, &Widget::timerSlot);
+```
